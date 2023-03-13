@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Accounts List</title>
+</head>
+<body>
+    <div id="container">
+        <h1>Game List</h1>
+
+        <p>List of All Accounts Made</p>
+        <p>Username | Password | Score</p>
+
+        <script>
+            fetch("/getGames").then(function(allAccounts){
+                allAccounts.json().then(function(AccountSaves){
+                    //append our container html
+                    for(let account of AccountSaves.accounts){
+                        var gameElement = document.createElement('p');
+                        gameElement.innerHTML = `${account.username} | ${account.password} | ${account.score} `;
+                        document.getElementById("container").appendChild(gameElement);
+
+                        var deleteButton = document.createElement("button");
+                        deleteButton.innerText = "Delete Account";
+                        deleteButton.addEventListener("click", function(){
+                            //fetch request goes here
+                            location.reload();
+                            fetch("/deleteAccount", {
+                                method:"POST",
+                                headers:{
+                                    "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify({
+                                    username:account._id
+                                })
+                            })
+                        })
+                        gameElement.appendChild(deleteButton);
+                    }
+                })
+            })
+        </script>
+    </div> 
+</body>
+</html>
