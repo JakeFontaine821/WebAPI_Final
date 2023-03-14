@@ -12,14 +12,15 @@
 
         <p>List of All Accounts Made</p>
         <p>Username | Password | Score</p>
+        <hr>
 
         <script>
-            fetch("/getGames").then(function(allAccounts){
+            fetch("/getAccounts").then(function(allAccounts){
                 allAccounts.json().then(function(AccountSaves){
                     //append our container html
                     for(let account of AccountSaves.accounts){
                         var gameElement = document.createElement('p');
-                        gameElement.innerHTML = `${account.username} | ${account.password} | ${account.score} `;
+                        gameElement.innerHTML = `${account.username} | ${account.password} | ${account.savedScore} `;
                         document.getElementById("container").appendChild(gameElement);
 
                         var deleteButton = document.createElement("button");
@@ -38,6 +39,15 @@
                             })
                         })
                         gameElement.appendChild(deleteButton);
+
+                        var updateButton = document.createElement("button");
+                        updateButton.innerText = "Update Account";
+                        updateButton.addEventListener("click", function(){
+                            //Send us to update page with required info                            
+                            window.location.replace("/updatePage.html?id=" + account._id + "&username=" + account.username
+                                + "&password=" + account.password + "&score=" + account.savedScore);
+                        })
+                        gameElement.appendChild(updateButton);
                     }
                 })
             })

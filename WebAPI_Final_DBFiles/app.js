@@ -29,10 +29,11 @@ app.get("/", function(req, res){
     res.redirect("AccountList.html");
 })
 
-app.get("/getGames", function(req, res){
-    Accounts.find({}).sort({"username":1}).then(function(accounts){
+app.get("/getAccounts", function(req, res){
+    Accounts.find({}).sort({"username":1}).then(function(accounts)
+    {
         res.json({accounts});
-    })
+    });
 })
 
 app.post("/deleteAccount", function(req, res){
@@ -41,12 +42,21 @@ app.post("/deleteAccount", function(req, res){
     res.redirect('AccountList.html');
 })
 
+app.post("/updateAccount", function(req, res){
+    Accounts.findByIdAndUpdate(req.body.id, {username:req.body.username, password:req.body.password,
+        savedScore:req.body.score}, function()
+    {
+        res.redirect("/AccountList.html");
+    });    
+})
+
 // DATABASE
 /***************/
 // UNITY
 
 app.post("/login", function(req, res){
-    Accounts.find({"username":req.body.username}).then(function(accountsaves){
+    Accounts.find({"username":req.body.username}).then(function(accountsaves)
+    {
         res.send({accountsaves});
     })
 });
@@ -59,7 +69,8 @@ app.post("/newAccount", function(req, res){
     }
     console.log(newData);
 
-    new Accounts(newData).save(function(err, room){
+    new Accounts(newData).save(function(err, room)
+    {
         //room._id to return id and store it in singleton
         res.send(room._id);
     });

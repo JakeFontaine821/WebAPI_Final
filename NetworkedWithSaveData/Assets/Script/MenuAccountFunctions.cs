@@ -35,6 +35,10 @@ public class MenuAccountFunctions : MonoBehaviour
             {
                 L_NotFound.text = "Login Not Found";
             }
+            else if(getRequestData.accountsaves[0].password != L_Password.text)
+            {
+                L_NotFound.text = "Login Incorrect";
+            }
             else
             {
                 //Now we have reference to account data from database
