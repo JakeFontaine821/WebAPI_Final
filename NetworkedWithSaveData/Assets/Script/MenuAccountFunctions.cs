@@ -95,8 +95,13 @@ public class MenuAccountFunctions : MonoBehaviour
             newData = newData.Remove(0, 1);
             newData = newData.Remove(newData.Length-1, 1);
 
-            AccountManager.Instance.Account._id = newData;
+            //AccountManager.Instance.Account._id = newData;
             // newData is the new accounts _id
+            DataClass newclass = new DataClass();
+            newclass._id = newData;
+            newclass.username = NA_Username.text;
+            newclass.password = NA_Password.text;
+            AccountManager.Instance.Account = newclass;
             loggedIn = true;
 
             if (request.result != UnityWebRequest.Result.Success)
@@ -116,10 +121,10 @@ public class MenuAccountFunctions : MonoBehaviour
     {
         DataClass account = new DataClass();
         account.username = NA_Username.text;
-        AccountManager.Instance.Account.username = NA_Username.text;
+        //AccountManager.Instance.Account.username = NA_Username.text;
 
         account.password = NA_Password.text;
-        AccountManager.Instance.Account.password = NA_Password.text;
+        //AccountManager.Instance.Account.password = NA_Password.text;
 
         string json = JsonUtility.ToJson(account);
         StartCoroutine(AddAccount(json));
