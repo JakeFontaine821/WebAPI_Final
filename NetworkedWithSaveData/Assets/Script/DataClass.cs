@@ -17,3 +17,9 @@ public class SaveList
 {
     public DataClass[] accountsaves;
 }
+
+public enum GameStates
+{
+    MENU,
+    NETWORKMENU,
+}

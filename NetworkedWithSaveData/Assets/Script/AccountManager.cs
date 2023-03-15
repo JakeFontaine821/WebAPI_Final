@@ -20,6 +20,29 @@ public class AccountManager : MonoBehaviour
         }
     }
     /*******************************************************************************/
-
+    [Header("Local Player's Account")]
     public DataClass Account;
+    [Header("Game States")]
+    public GameStates currentState = GameStates.MENU;
+    public GameObject MenuFolder;
+    public GameObject NetworkFolder;
+
+    public void ChangeGameState(GameStates newState)
+    {
+        if (newState == currentState) return;
+
+        switch (newState)
+        {
+            case GameStates.MENU:
+                currentState = newState;
+                MenuFolder.SetActive(true);
+                NetworkFolder.SetActive(false);
+                break;
+            case GameStates.NETWORKMENU:
+                currentState = newState;
+                MenuFolder.SetActive(false);
+                NetworkFolder.SetActive(true);
+                break;
+        }
+    }
 }

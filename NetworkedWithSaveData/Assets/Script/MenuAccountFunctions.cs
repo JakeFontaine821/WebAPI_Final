@@ -16,6 +16,8 @@ public class MenuAccountFunctions : MonoBehaviour
     public TMP_InputField NA_Username;
     public TMP_InputField NA_Password;
 
+    bool loggedIn = false;
+
     #region Log In Post
     IEnumerator SearchLogin(string json)
     {
@@ -34,15 +36,19 @@ public class MenuAccountFunctions : MonoBehaviour
             if (getRequestData.accountsaves.Length == 0)
             {
                 L_NotFound.text = "Login Not Found";
+                loggedIn = false;
             }
             else if(getRequestData.accountsaves[0].password != L_Password.text)
             {
                 L_NotFound.text = "Login Incorrect";
+                loggedIn = false;
             }
             else
             {
                 //Now we have reference to account data from database
                 AccountManager.Instance.Account = getRequestData.accountsaves[0];
+                //Successfully logged in, send to next state
+                loggedIn = true;
             }
 
             //error check
@@ -55,6 +61,11 @@ public class MenuAccountFunctions : MonoBehaviour
                 Debug.Log("DataObj Posted");
             }
             request.uploadHandler.Dispose();
+
+            if (loggedIn)
+            {
+                AccountManager.Instance.ChangeGameState(GameStates.NETWORKMENU);
+            }
         }
     }
 
@@ -84,7 +95,9 @@ public class MenuAccountFunctions : MonoBehaviour
             newData = newData.Remove(0, 1);
             newData = newData.Remove(newData.Length-1, 1);
 
-            AccountManager.Instance.Account._id = newData;            
+            AccountManager.Instance.Account._id = newData;
+            // newData is the new accounts _id
+            loggedIn = true;
 
             if (request.result != UnityWebRequest.Result.Success)
             {
@@ -95,6 +108,8 @@ public class MenuAccountFunctions : MonoBehaviour
                 Debug.Log("DataObj Posted");
             }
             request.uploadHandler.Dispose();
+
+            AccountManager.Instance.ChangeGameState(GameStates.NETWORKMENU);
         }
     }
     public void NewAccount()
