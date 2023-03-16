@@ -102,7 +102,6 @@ public class MenuAccountFunctions : MonoBehaviour
             newclass.username = NA_Username.text;
             newclass.password = NA_Password.text;
             AccountManager.Instance.Account = newclass;
-            loggedIn = true;
 
             if (request.result != UnityWebRequest.Result.Success)
             {

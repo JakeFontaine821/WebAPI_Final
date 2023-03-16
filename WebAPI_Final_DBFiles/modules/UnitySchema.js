@@ -11,7 +11,7 @@ var Schema = new Schema({
         require:true
     },
     savedScore:{
-        type:String,
+        type:Number,
         require:true
     }
 });

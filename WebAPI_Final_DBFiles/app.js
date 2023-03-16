@@ -76,6 +76,13 @@ app.post("/newAccount", function(req, res){
     });
 });
 
+app.post("/saveAccount", function(req, res){
+    console.log(req.body);
+    Accounts.findByIdAndUpdate(req.body._id, {savedScore:req.body.savedScore}, function(){
+        console.log("Updated Account " + req.body._id);
+    })
+})
+
 /****************************************************************************/
 // DONT TOUCH
 app.use(express.static(__dirname+"/pages"));
